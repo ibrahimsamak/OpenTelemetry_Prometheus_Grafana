@@ -1,0 +1,23 @@
+groups:
+  - name: saga
+    rules:
+      - record: saga:outcomes:rate5m
+        expr: sum by (job, saga_name, saga_outcome) (rate(saga_outcomes_total[5m]))
+
+      - alert: SagaNonCompletionRatioHigh
+        expr: |
+          sum by (job) (rate(saga_outcomes_total{saga_outcome!="completed"}[10m]))
+            /
+          sum by (job) (rate(saga_outcomes_total[10m])) > 0.30
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "More than 30% of sagas in {{ $labels.job }} are not completing"
+
+      - alert: SagaHardFailure
+        expr: sum by (job) (increase(saga_outcomes_total{saga_outcome="failed"}[15m])) > 0
+        labels:
+          severity: critical
+        annotations:
+          summary: "Saga compensation failed in {{ $labels.job }}; manual intervention required"
