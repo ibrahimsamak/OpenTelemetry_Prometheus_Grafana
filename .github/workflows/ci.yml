@@ -2,7 +2,7 @@ name: ci
 
 on:
   pull_request:
-    branches: [staging, main]
+    branches: [staging, master]
 
 permissions:
   contents: read
