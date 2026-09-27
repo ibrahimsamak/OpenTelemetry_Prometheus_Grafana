@@ -1,8 +1,10 @@
 name: ci
 
 on:
+  push:
+    branches: [staging]
   pull_request:
-    branches: [staging, main]
+    branches: [staging, master]
 
 permissions:
   contents: read
@@ -16,15 +18,15 @@ jobs:
     name: branch-policy
     runs-on: ubuntu-latest
     steps:
-      - name: Only 'staging' or 'hotfix/*' may be merged into main
+      - name: Only 'staging' or 'hotfix/*' may be merged into master
         env:
           BASE_REF: ${{ github.base_ref }}
           HEAD_REF: ${{ github.head_ref }}
         run: |
-          if [ "$BASE_REF" = "main" ]; then
+          if [ "$BASE_REF" = "master" ]; then
             case "$HEAD_REF" in
-              staging|hotfix/*) echo "OK: $HEAD_REF -> main" ;;
-              *) echo "::error::PRs into main must come from 'staging' or 'hotfix/*' (got '$HEAD_REF')"; exit 1 ;;
+              staging|hotfix/*) echo "OK: $HEAD_REF -> master" ;;
+              *) echo "::error::PRs into master must come from 'staging' or 'hotfix/*' (got '$HEAD_REF')"; exit 1 ;;
             esac
           else
             echo "OK: $HEAD_REF -> $BASE_REF"
@@ -38,7 +40,7 @@ jobs:
 
       - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: 9.0.x
 
       - name: Restore
         run: dotnet restore
