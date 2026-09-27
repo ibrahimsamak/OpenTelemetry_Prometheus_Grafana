@@ -1,0 +1,38 @@
+@page "{id:int}"
+@model CrudApp.Pages.Orders.DetailsModel
+@{
+    ViewData["Title"] = "Order details";
+}
+
+<h1>Order #@Model.Order.Id</h1>
+
+@if (Model.Message is not null)
+{
+    <div class="alert alert-info">@Model.Message</div>
+}
+
+<dl class="row">
+    <dt class="col-sm-2">@Html.DisplayNameFor(m => m.Order.CustomerName)</dt>
+    <dd class="col-sm-10">@Model.Order.CustomerName</dd>
+    <dt class="col-sm-2">@Html.DisplayNameFor(m => m.Order.Product)</dt>
+    <dd class="col-sm-10">@Model.Order.Product</dd>
+    <dt class="col-sm-2">@Html.DisplayNameFor(m => m.Order.Quantity)</dt>
+    <dd class="col-sm-10">@Model.Order.Quantity</dd>
+    <dt class="col-sm-2">@Html.DisplayNameFor(m => m.Order.Amount)</dt>
+    <dd class="col-sm-10">@Model.Order.Amount.ToString("0.00")</dd>
+    <dt class="col-sm-2">@Html.DisplayNameFor(m => m.Order.Status)</dt>
+    <dd class="col-sm-10">@Model.Order.Status</dd>
+    <dt class="col-sm-2">@Html.DisplayNameFor(m => m.Order.CreatedAtUtc)</dt>
+    <dd class="col-sm-10">@Model.Order.CreatedAtUtc.ToString("u")</dd>
+</dl>
+
+<div class="d-flex gap-2">
+    @if (Model.Order.Status == OrderStatus.Pending)
+    {
+        <form method="post" asp-page-handler="RunSaga" asp-route-id="@Model.Order.Id">
+            <button type="submit" class="btn btn-success">Run fulfillment saga</button>
+        </form>
+    }
+    <a asp-page="./Edit" asp-route-id="@Model.Order.Id" class="btn btn-outline-primary">Edit</a>
+    <a asp-page="./Index" class="btn btn-link">Back to list</a>
+</div>

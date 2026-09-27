@@ -1,0 +1,13 @@
+@page "{id:int}"
+@model CrudApp.Pages.Orders.DeleteModel
+@{
+    ViewData["Title"] = "Delete order";
+}
+
+<h1>Delete order #@Model.Order.Id?</h1>
+<p>@Model.Order.CustomerName: @Model.Order.Product x@Model.Order.Quantity (@Model.Order.Status)</p>
+
+<form method="post">
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-page="./Index" class="btn btn-link">Cancel</a>
+</form>

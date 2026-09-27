@@ -1,0 +1,22 @@
+@model CrudApp.Models.Order
+
+<div class="mb-3">
+    <label asp-for="CustomerName" class="form-label"></label>
+    <input asp-for="CustomerName" class="form-control" />
+    <span asp-validation-for="CustomerName" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="Product" class="form-label"></label>
+    <input asp-for="Product" class="form-control" />
+    <span asp-validation-for="Product" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="Quantity" class="form-label"></label>
+    <input asp-for="Quantity" class="form-control" />
+    <span asp-validation-for="Quantity" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="Amount" class="form-label"></label>
+    <input asp-for="Amount" class="form-control" />
+    <span asp-validation-for="Amount" class="text-danger"></span>
+</div>

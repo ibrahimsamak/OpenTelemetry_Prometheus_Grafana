@@ -1,0 +1,61 @@
+@page
+@model CrudApp.Pages.Orders.IndexModel
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<h1>Orders</h1>
+
+@if (Model.Message is not null)
+{
+    <div class="alert alert-info">@Model.Message</div>
+}
+
+<div class="d-flex gap-2 mb-3">
+    <a asp-page="Create" class="btn btn-primary">New order</a>
+    <form method="post" asp-page-handler="Simulate" class="d-flex gap-2">
+        <input type="number" name="count" value="20" min="1" max="500" class="form-control" style="width:100px" />
+        <button type="submit" class="btn btn-outline-secondary">Simulate orders + sagas</button>
+    </form>
+</div>
+
+<table class="table table-sm table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Customer</th>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Created (UTC)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var o in Model.Orders)
+        {
+            var badge = o.Status switch
+            {
+                OrderStatus.Completed => "bg-success",
+                OrderStatus.Compensated => "bg-warning text-dark",
+                OrderStatus.Failed => "bg-danger",
+                _ => "bg-secondary"
+            };
+            <tr>
+                <td>@o.Id</td>
+                <td>@o.CustomerName</td>
+                <td>@o.Product</td>
+                <td>@o.Quantity</td>
+                <td>@o.Amount.ToString("0.00")</td>
+                <td><span class="badge @badge">@o.Status</span></td>
+                <td>@o.CreatedAtUtc.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                <td class="text-nowrap">
+                    <a asp-page="Details" asp-route-id="@o.Id">Details</a> |
+                    <a asp-page="Edit" asp-route-id="@o.Id">Edit</a> |
+                    <a asp-page="Delete" asp-route-id="@o.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
