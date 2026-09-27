@@ -1,0 +1,33 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+build/
+bld/
+
+# .NET
+*.user
+*.suo
+project.lock.json
+project.fragment.lock.json
+artifacts/
+.dotnet/
+
+# Rider / Visual Studio / VS Code
+.vs/
+.idea/
+.vscode/
+*.swp
+
+# SQLite database and app data
+*.db
+*.db-shm
+*.db-wal
+
+# OS
+.DS_Store
+Thumbs.db
